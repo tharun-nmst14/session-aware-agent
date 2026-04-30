@@ -105,7 +105,7 @@ def is_session_meta_question(question: str) -> bool:
     ]
 
     q = question.lower()
-    return any(k in q for k in keywords)    return any(k in q for k in keywords)
+    return any(k in q for k in keywords)   
 
 
 def check_scope(question: str) -> bool:
