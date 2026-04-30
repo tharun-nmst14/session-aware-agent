@@ -146,7 +146,7 @@ def general_answer(question: str) -> str:
 
 st.set_page_config(page_title="Session‑Aware Agentic AI", layout="centered")
 
-st.title("🤖 Session‑Aware Agentic AI")
+st.title(" Session‑Aware Agentic AI")
 st.write(
     "This agent answers questions using **training session knowledge first**. "
     "If a question is outside session scope, it automatically uses general AI."
