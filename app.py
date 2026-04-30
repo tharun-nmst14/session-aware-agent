@@ -2,11 +2,11 @@ import streamlit as st
 import os
 from groq import Groq
 
-# ================= CONFIG =================
+# CONFIG
 MODEL_NAME = "llama-3.1-8b-instant"
 client = Groq(api_key=os.getenv("GROQ_API_KEY"))
 
-# ================= SESSION KNOWLEDGE (REAL MoMs) =================
+# SESSION KNOWLEDGE (REAL MoMs)
 
 SESSION_KNOWLEDGE = [
     {
@@ -65,19 +65,47 @@ Grafana monitoring, tagging, and container registries were covered.
     }
 ]
 
-# ================= AGENT FUNCTIONS =================
+#  AGENT FUNCTIONS
 
 def is_session_meta_question(question: str) -> bool:
     keywords = [
-        "overview of sessions",
-        "analyze my sessions",
-        "summarize sessions",
-        "entire sessions",
+        # overview / summary
+        "overview",
+        "summary",
+        "summarize",
+        "brief",
+        "high level",
+
+        # session references
+        "session",
+        "sessions",
+        "training",
+        "classes",
+        "meetings",
+        "mom",
+
+        # intent verbs
+        "analyze",
+        "analysis",
+        "explain",
+        "describe",
+        "review",
+        "recap",
         "what did we cover",
+        "what have we learned",
+        "topics covered",
+        "learning journey",
+
+        # combinations users actually type
+        "entire sessions",
+        "all sessions",
+        "overall sessions",
+        "session overview",
         "session summary"
     ]
+
     q = question.lower()
-    return any(k in q for k in keywords)
+    return any(k in q for k in keywords)    return any(k in q for k in keywords)
 
 
 def check_scope(question: str) -> bool:
@@ -142,7 +170,7 @@ def general_answer(question: str) -> str:
     )
     return res.choices[0].message.content.strip()
 
-# ================= STREAMLIT UI =================
+# STREAMLIT UI 
 
 st.set_page_config(page_title="Session‑Aware Agentic AI", layout="centered")
 
@@ -151,6 +179,13 @@ st.write(
     "This agent answers questions using **training session knowledge first**. "
     "If a question is outside session scope, it automatically uses general AI."
 )
+st.info("""
+💡 **Tip**
+You can ask:
+• Questions from our cloud sessions (Azure, DevOps, Terraform, AKS)
+• Session summaries like “Give me an overview of sessions”
+• Any other question — the agent will answer using general AI
+""")
 
 question = st.text_input("Ask a question:")
 
